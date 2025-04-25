@@ -21,3 +21,7 @@
   ```bash
   pip install loguru
   ```
+
+## Issues?
+
+If there are any issues, you can report them in the [Issues](https://github.com/Remchalk/m3u-checker/issues) tab of this repo. However, to be honest, this project was created for a one-time use, and I wanted to publish it to allow others to use it in this very specific case. For more general use, I recommend [Aleksandr Statciuk's](https://github.com/freearhey) tool, [iptv-checker](https://github.com/freearhey/iptv-checker), which is much more complete and customizable.
