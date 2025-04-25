@@ -1,32 +1,34 @@
 # m3u-checker
 
-**m3u-checker** is a Python CLI tool to check the validity of streams in an M3U playlist.
+**m3u-checker** est un outil Python CLI pour vérifier la validité des flux dans une playlist M3U.
 
-## Features
+## Fonctionnalités
 
-- Automatically uses `http-user-agent` and `http-referrer` from the M3U file if present.
-- Filter out low quality streams.
-- Designed to check IPTV links from the [IPTV-org repository](https://github.com/iptv-org/iptv).
+- Utilise automatiquement `http-user-agent` et `http-referrer` du flux M3U si présent
+- Filtre les flux de mauvaise qualité.
+- Conçu pour vérifier les liens IPTV à partir du [dépôt IPTV-org](https://github.com/iptv-org/iptv).
 
-## Default settings
+## Paramètres pas défaut
 
-- Default User-Agent: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36`
-- Timeout (seconds before the check fails): `10`
-- Minimum required resolution: `>=480`
+- User-Agent par défaut: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36`
+- Délai d'attente (secondes avant l'échec de la vérification): `10`
+- Résolution minimum requise: `>=480`
 
-## Usage
+## Utilisation
 ```bash
 python main.py /path/to/playlist.m3u
 ```
 
-## Requirements
+## Prérequis
 
 - [**ffmpeg**](https://ffmpeg.org/download.html) 
-- **Python libraries**:
+- **Bibliothèques Python**:
   ```bash
   pip install loguru
   ```
 
-## Issues?
+## Des soucis ?
 
-If there are any issues, you can report them in the [Issues](https://github.com/Remchalk/m3u-checker/issues) tab of this repo. However, to be honest, this project was created for a one-time use, and I wanted to publish it to allow others to use it in this very specific case. For more general use, I recommend [Aleksandr Statciuk's](https://github.com/freearhey) tool, [iptv-checker](https://github.com/freearhey/iptv-checker), which is much more complete and customizable.
+S'il y a des problèmes, vous pouvez les signaler dans l'onglet [Issues](https://github.com/Remchalk/m3u-checker/issues) de ce repo. Cependant, pour être honnête, ce projet a été créé pour un usage unique, et je voulais le publier pour permettre à d'autres de l'utiliser dans un cas très spécifique. Pour plus d'utilisation générale, je recommande l'outil d'[Aleksandr Statciuk's](https://github.com/freearhey), [iptv-checker](https://github.com/freearhey/iptv-checker), qui est beaucoup plus complet et customisable.
+
+Si vous avez des soucis par rapport à la traduction, vous pouvez les signaler dans l'onglet [Issues](https://github.com/TommyLPB39/m3u-checker-fr/issues) de ce fork.
