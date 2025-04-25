@@ -5,24 +5,24 @@ import re
 from loguru import logger
 
 def get_user_agent():
-    ua = input("User-Agent? (Press Enter to use the default one): ")
+    ua = input("User-Agent? (Appuyer sur la touche Entré pour utiliser la valeur par défaut): ")
     return ua or "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"
 
 def extract_error(stderr):
     for line in stderr.splitlines():
-        if "error" in line.lower():
+        if "erreur" in line.lower():
             return line.strip()
-    return "Unknown error"
+    return "Erreur inconnu"
 
 def check_stream(url, channel_name, extinf, default_ua, timeout=10):
     ua = re.search(r'http-user-agent="([^"]+)"', extinf)
     ref = re.search(r'http-referrer="([^"]+)"', extinf)
 
     user_agent = ua.group(1) if ua else default_ua
-    if ua: logger.warning(f"http-user-agent override: {user_agent}")
-    if ref: logger.warning(f"http-referrer added: {ref.group(1)}")
+    if ua: logger.warning(f"http-user-agent remplacé par: {user_agent}")
+    if ref: logger.warning(f"http-referrer ajouté: {ref.group(1)}")
 
-    logger.info(f"Checking: {channel_name} ({url})")
+    logger.info(f"Vérification: {channel_name} ({url})")
 
     cmd = [
         'ffmpeg',
@@ -32,12 +32,12 @@ def check_stream(url, channel_name, extinf, default_ua, timeout=10):
         '-f', 'null', '-'
     ]
     if ref:
-        cmd.extend(['-headers', f'Referer: {ref.group(1)}'])
+        cmd.extend(['-headers', f'Référant: {ref.group(1)}'])
 
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
         if result.returncode != 0:
-            logger.error(f"Invalid: {extract_error(result.stderr)}")
+            logger.error(f"Invalide: {extract_error(result.stderr)}")
             return False
 
         output = result.stderr.lower()
@@ -47,15 +47,15 @@ def check_stream(url, channel_name, extinf, default_ua, timeout=10):
                 height = int(res.group(2))
                 if height >= 480:
                     return True
-                logger.error("Invalid: Resolution too low")
+                logger.error("Invalide: La résolution est trop faible")
             else:
-                logger.error("Invalid: No resolution found")
+                logger.error("Invalide: Aucune résolution trouvé")
         else:
-            logger.error("Invalid: No video stream")
+            logger.error("Invalide: Pas de flux vidéo")
     except subprocess.TimeoutExpired:
-        logger.error("Invalid: Timed out")
+        logger.error("Invalid: Délai dépassé")
     except Exception as e:
-        logger.error(f"Error checking stream: {e}")
+        logger.error(f"Erreur pendant la vérification du flux: {e}")
     return False
 
 def parse_m3u(file_path):
@@ -78,7 +78,7 @@ def parse_m3u(file_path):
             if j < len(lines):
                 url = lines[j].strip()
                 name = re.search(r',\s*(.*)$', extinf)
-                channels.append((extinf, url, name.group(1) if name else "Unknown"))
+                channels.append((extinf, url, name.group(1) if name else "Inconnu"))
                 i = j + 1
             else:
                 i += 1
@@ -94,23 +94,23 @@ def rw_playlist(input_file, output_file, user_agent):
         try:
             for extinf, url, name in channels:
                 if check_stream(url, name, extinf, user_agent):
-                    logger.success("Valid: Writing to playlist")
+                    logger.success("Valide: Écriture dans la playlist")
                     out.write(f"{extinf}\n{url}\n")
                     out.flush()
         except KeyboardInterrupt:
-            logger.warning("Process interrupted by user.")
+            logger.warning("Processus interrompu par l'utilisateur")
             out.flush()
 
-    logger.success(f"Done: Valid streams written to {output_file}")
+    logger.success(f"Terminé: Les flux fonctionnels ont été écrits dans {output_file}")
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        logger.error("Usage: python main.py /path/to/playlist.m3u")
+        logger.error("Modèle d'utilisation non respecté: python main.py /chemin/vers/playlist.m3u")
         sys.exit(1)
 
     input_path = sys.argv[1]
     if not os.path.isfile(input_path):
-        logger.error(f"File not found: {input_path}")
+        logger.error(f"Fichier non trouvé: {input_path}")
         sys.exit(1)
 
     ua = get_user_agent()
