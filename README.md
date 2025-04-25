@@ -12,7 +12,12 @@
 
 - Default User-Agent: `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36`
 - Timeout (seconds before the check fails): `10`
- - Minimum required resolution: `>=480`
+- Minimum required resolution: `>=480`
+
+## Usage
+```bash
+python main.py /path/to/playlist.m3u
+```
 
 ## Requirements
 
