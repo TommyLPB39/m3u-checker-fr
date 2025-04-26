@@ -16,7 +16,7 @@
 
 ## Utilisation
 ```bash
-python main.py /path/to/playlist.m3u
+python main.py /chemin/vers/playlist.m3u
 ```
 
 ## Prérequis
